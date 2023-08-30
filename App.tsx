@@ -1,118 +1,147 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
+  Button,
   Text,
-  useColorScheme,
   View,
+  ScrollView,
+  TextInput,
+  FlatList
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const initialList = [
+  {
+    index: "WD426SD085",
+    title: "Bake a cake",
+    desc: "Bake a cake with my sister"
+  },
+  {
+    index: "WD228SD936",
+    title: "Go for a walk",
+    desc: "Go for a walk with my friends"
+  }
+]
+function App(): JSX.Element {
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const [todoList, setTodoList] = useState(initialList);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const addTodo = () =>{
+    const num1 = Math.floor(Math.random() * 1000);
+    const num2 = Math.floor(Math.random() * 1000);
+    const newTodo = {
+      index: `WD${num1}SD${num2}`,
+      title: title,
+      desc: desc,
+    }
+    setTodoList(prevState=> [ newTodo, ...prevState]);
+    setTitle("");
+    setDesc("");
+  }
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const removeTodo = (index:string) => {
+    const filteredTodo = todoList.filter((elem)=> elem.index !== index)
+    setTodoList(filteredTodo)
+  }
+ 
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+     
+     <Text style={[styles.text]}>Todo ❤️</Text>
+     <FlatList
+        keyExtractor={(item)=> item.index}
+        data={todoList}
+        renderItem={({item})=>(
+          <View style={styles.todoContainer}>   
+            <View style={{marginBottom: 20}}>
+              <Text style={[styles.text,styles.todoText]}>
+                Title: {item.title}
+              </Text>
+              <Text style={[styles.text, styles.todoText]}>
+                Desc: {item.desc}
+              </Text>
+            </View>
+            <Button 
+              color={"#850020"} 
+              title={`Remove index: ${item.index}`} 
+              onPress={()=> removeTodo(item.index)}
+            />
+          </View>
+        )}/>
+        
+    
+      <View style={{padding: 5}}>
+        <Text style={styles.text}>Add new Todos ❤️</Text>
+        <View style={styles.inputContainer}>
+          <TextInput 
+            style={[styles.textInput]} 
+            placeholder='Todo title' 
+            value={title}
+            onChangeText={(value)=> setTitle(value)}
+          />
+          <TextInput 
+            style={[styles.textInput]} 
+            placeholder='Todo description' 
+            value={desc}
+            multiline
+            onChangeText={(value)=> setDesc(value)}/>
+        </View>
+        <Button 
+          color={"#458530"} 
+          title="Add" 
+          onPress={() => {if(title && desc) addTodo()}}
+        />
+        <Button 
+          color={"#455090"} 
+          title="Reset" 
+          onPress={()=>setTodoList(initialList)}
+        />
+      </View>
+      
+   
     </View>
   );
 }
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container:{
+    backgroundColor: "#242424",
+    height: "100%",
+    padding: 20
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  todoContainer:{
+    backgroundColor: "#303030",
+    borderColor: "#fff",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 15
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  inputContainer:{
+    marginBottom: 15
   },
-  highlight: {
-    fontWeight: '700',
+  text:{
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 25,
+    letterSpacing: 1, 
+    textAlign: "center", 
+    marginBottom: 20,
   },
-});
+  todoText:{
+    fontSize: 20,
+    textAlign: "left", 
+    marginBottom: 5,
+  },
+  textInput: {
+    backgroundColor: "#fff",
+    borderColor: "#000",
+    borderWidth: 1,
+    marginBottom: 10,
+    borderRadius: 5,
+  }
+ 
+
+
+})
 
 export default App;
