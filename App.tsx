@@ -1,31 +1,39 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  Button,
   Text,
   View,
-  ScrollView,
   TextInput,
-  FlatList
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
 } from 'react-native';
+import Card from './src/components/Card';
+import DefaultButton from './src/components/DefaultButton';
 
 const initialList = [
   {
     index: "WD426SD085",
     title: "Bake a cake",
-    desc: "Bake a cake with my sister"
+    desc: "Bake a cake with my sister",
+    isDone: false,
   },
   {
     index: "WD228SD936",
     title: "Go for a walk",
-    desc: "Go for a walk with my friends"
+    desc: "Go for a walk with my friends",
+    isDone: false,
   }
 ]
+
 function App(): JSX.Element {
 
   const [todoList, setTodoList] = useState(initialList);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+
   const addTodo = () =>{
     const num1 = Math.floor(Math.random() * 1000);
     const num2 = Math.floor(Math.random() * 1000);
@@ -33,43 +41,58 @@ function App(): JSX.Element {
       index: `WD${num1}SD${num2}`,
       title: title,
       desc: desc,
+      isDone: false,
     }
     setTodoList(prevState=> [ newTodo, ...prevState]);
     setTitle("");
     setDesc("");
   }
 
+  const finishTodo = (index: string) =>{
+    const filteredTodo = todoList.map((elem)=>{
+      if(index === elem.index) elem.isDone = !elem.isDone;
+      return elem;
+    })
+    setTodoList(filteredTodo)
+  }
+  
   const removeTodo = (index:string) => {
     const filteredTodo = todoList.filter((elem)=> elem.index !== index)
     setTodoList(filteredTodo)
+    Alert.alert(`todo index: ${index}`, `todo index: ${index} has been deleted`, [{text: "close"}])
   }
  
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={()=>{ Keyboard.dismiss }}>
+      <View style={styles.container}>
      
      <Text style={[styles.text]}>Todo ❤️</Text>
      <FlatList
         keyExtractor={(item)=> item.index}
         data={todoList}
         renderItem={({item})=>(
-          <View style={styles.todoContainer}>   
-            <View style={{marginBottom: 20}}>
-              <Text style={[styles.text,styles.todoText]}>
-                Title: {item.title}
-              </Text>
-              <Text style={[styles.text, styles.todoText]}>
-                Desc: {item.desc}
-              </Text>
-            </View>
-            <Button 
-              color={"#850020"} 
-              title={`Remove index: ${item.index}`} 
-              onPress={()=> removeTodo(item.index)}
-            />
+          <View style={styles.todoContainer}>  
+            <TouchableOpacity onPress={()=> finishTodo(item.index)}>
+              <Card 
+                title={item.title} 
+                desc={item.desc} 
+                isDone={item.isDone}
+              />
+            </TouchableOpacity> 
+           
+             <DefaultButton
+                disabled = {!item.isDone}
+                color={"#850020"} 
+                title={`Remove index: ${item.index}`} 
+                onPress={()=> removeTodo(item.index)}
+              />
+            {/* <DefaultButton
+              color={"#204080"} 
+              title="Done" 
+              onPress={()=> finishTodo(item.index)}
+            /> */}
           </View>
         )}/>
-        
-    
       <View style={{padding: 5}}>
         <Text style={styles.text}>Add new Todos ❤️</Text>
         <View style={styles.inputContainer}>
@@ -86,20 +109,19 @@ function App(): JSX.Element {
             multiline
             onChangeText={(value)=> setDesc(value)}/>
         </View>
-        <Button 
+        <DefaultButton
           color={"#458530"} 
           title="Add" 
           onPress={() => {if(title && desc) addTodo()}}
         />
-        <Button 
+        <DefaultButton
           color={"#455090"} 
           title="Reset" 
           onPress={()=>setTodoList(initialList)}
         />
       </View>
-      
-   
-    </View>
+      </View>
+    </TouchableWithoutFeedback> 
   );
 }
 const styles = StyleSheet.create({
@@ -127,11 +149,6 @@ const styles = StyleSheet.create({
     textAlign: "center", 
     marginBottom: 20,
   },
-  todoText:{
-    fontSize: 20,
-    textAlign: "left", 
-    marginBottom: 5,
-  },
   textInput: {
     backgroundColor: "#fff",
     borderColor: "#000",
@@ -139,9 +156,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 5,
   }
- 
-
-
 })
 
 export default App;
