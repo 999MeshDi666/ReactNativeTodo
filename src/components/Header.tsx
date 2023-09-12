@@ -9,7 +9,8 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
+    // paddingVertical: 8,
+    alignItems: 'center',
   },
   text: {
     color: '#fff',

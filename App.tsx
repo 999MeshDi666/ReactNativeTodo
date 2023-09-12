@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  TextInput,
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
 } from 'react-native';
 import TodoCard from './src/components/TodoCard';
-import DefaultButton from './src/components/DefaultButton';
+
 import Header from './src/components/Header';
+import TodoForm from './src/components/TodoForm';
 
 const initialList = [
   {
@@ -90,38 +89,15 @@ function App(): JSX.Element {
             )}
           />
         </View>
-        <View style={{padding: 5}}>
-          <Text style={styles.text}>Add new Todos ❤️</Text>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.textInput]}
-              placeholder="Todo title"
-              value={title}
-              onChangeText={value => setTitle(value)}
-            />
-            <TextInput
-              style={[styles.textInput]}
-              placeholder="Todo description"
-              value={desc}
-              multiline
-              onChangeText={value => setDesc(value)}
-            />
-          </View>
-          <DefaultButton
-            color={'#458530'}
-            title="Add"
-            onPress={() => {
-              if (title && desc) {
-                addTodo();
-              }
-            }}
-          />
-          <DefaultButton
-            color={'#455090'}
-            title="Reset"
-            onPress={() => setTodoList(initialList)}
-          />
-        </View>
+        <TodoForm
+          title={title}
+          desc={desc}
+          initialList={initialList}
+          setTitle={setTitle}
+          setDesc={setDesc}
+          setTodoList={setTodoList}
+          addTodo={addTodo}
+        />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -129,13 +105,11 @@ function App(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#435470',
-    height: '100%',
+    flex: 1,
   },
   listContainer: {
     padding: 20,
-  },
-  inputContainer: {
-    marginBottom: 15,
+    flex: 1,
   },
   text: {
     color: '#fff',
@@ -144,13 +118,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: 'center',
     marginBottom: 20,
-  },
-  textInput: {
-    backgroundColor: '#fff',
-    borderColor: '#000',
-    borderWidth: 1,
-    marginBottom: 10,
-    borderRadius: 5,
   },
 });
 
