@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   todoText: {
+    fontFamily: 'Montserrat-Italic',
     color: '#fff',
-    fontWeight: 'bold',
     fontSize: 20,
     letterSpacing: 1,
     textAlign: 'left',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   textTodoDone: {
     textDecorationLine: 'line-through',
-    fontWeight: '200',
+    fontFamily: 'Montserrat-Thin',
   },
 });
 export default TodoCard;
