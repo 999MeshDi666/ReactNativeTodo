@@ -8,7 +8,6 @@ import {
   Alert,
 } from 'react-native';
 import TodoCard from './src/components/TodoCard';
-
 import Header from './src/components/Header';
 import TodoForm from './src/components/TodoForm';
 
@@ -110,14 +109,6 @@ const styles = StyleSheet.create({
   listContainer: {
     padding: 20,
     flex: 1,
-  },
-  text: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 25,
-    letterSpacing: 1,
-    textAlign: 'center',
-    marginBottom: 20,
   },
 });
 

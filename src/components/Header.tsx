@@ -1,8 +1,9 @@
 import {View, Text, StyleSheet} from 'react-native';
+import {globalStyle} from '../../assets/styles/style';
 const Header = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Todo ❤️</Text>
+      <Text style={globalStyle.text}>Todo ❤️</Text>
     </View>
   );
 };
@@ -11,13 +12,6 @@ const styles = StyleSheet.create({
   container: {
     // paddingVertical: 8,
     alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 25,
-    letterSpacing: 1,
-    textAlign: 'center',
   },
 });
 export default Header;
