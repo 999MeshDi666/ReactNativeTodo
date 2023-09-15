@@ -1,5 +1,7 @@
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {globalStyle} from '../../assets/styles/style';
+
 const Header = () => {
   return (
     <View style={styles.container}>
@@ -10,7 +12,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // paddingVertical: 8,
+    paddingVertical: 10,
     alignItems: 'center',
   },
 });

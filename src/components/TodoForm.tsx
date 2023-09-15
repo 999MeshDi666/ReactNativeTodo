@@ -1,3 +1,4 @@
+import React from 'react';
 import {Text, View, TextInput, StyleSheet} from 'react-native';
 import DefaultButton from './DefaultButton';
 import {globalStyle} from '../../assets/styles/style';
@@ -21,7 +22,7 @@ const TodoForm = ({
   addTodo,
 }: TodoFormProps) => {
   return (
-    <View style={{padding: 5, flex: 1}}>
+    <View style={{padding: 10, flex: 1}}>
       <Text style={globalStyle.text}>Add new Todos ❤️</Text>
       <View style={styles.inputContainer}>
         <TextInput
