@@ -5,7 +5,7 @@ import {globalStyle} from '../../assets/styles/style';
 const Header = () => {
   return (
     <View style={styles.container}>
-      <Text style={globalStyle.text}>Todo ❤️</Text>
+      <Text style={globalStyle.text}>My Todo ❤️</Text>
     </View>
   );
 };

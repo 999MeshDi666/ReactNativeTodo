@@ -10,7 +10,6 @@ type TodoFormProps = {
   setTitle: (title: string) => void;
   setDesc: (desc: string) => void;
   setTodoList: (list: any) => void;
-  addTodo: () => void;
 };
 const TodoForm = ({
   title,
@@ -19,10 +18,32 @@ const TodoForm = ({
   setTitle,
   setDesc,
   setTodoList,
-  addTodo,
 }: TodoFormProps) => {
+  const addTodo = () => {
+    const num1 = Math.floor(Math.random() * 1000);
+    const num2 = Math.floor(Math.random() * 1000);
+    const newTodo = {
+      index: `WD${num1}SD${num2}`,
+      title: title,
+      desc: desc,
+      isDone: false,
+    };
+    setTodoList((prevState: any) => [newTodo, ...prevState]);
+    setTitle('');
+    setDesc('');
+  };
+
+  const resetTodoList = () => {
+    const newList = initialList.map((todo: any) => {
+      if (todo.isDone) {
+        todo.isDone = false;
+      }
+      return todo;
+    });
+    setTodoList(newList);
+  };
   return (
-    <View style={{padding: 10, flex: 1}}>
+    <View style={{padding: 10, flex: 0.8}}>
       <Text style={globalStyle.text}>Add new Todos ❤️</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -40,7 +61,7 @@ const TodoForm = ({
         />
       </View>
       <DefaultButton
-        color={'#458530'}
+        color={'#456590'}
         title="Add"
         onPress={() => {
           if (title && desc) {
@@ -48,21 +69,18 @@ const TodoForm = ({
           }
         }}
       />
-      <DefaultButton
-        color={'#455090'}
-        title="Reset"
-        onPress={() => setTodoList(initialList)}
-      />
+      <DefaultButton color={'#850020'} title="Reset" onPress={resetTodoList} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginBottom: 15,
+    marginTop: 15,
   },
 
   textInput: {
+    paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderColor: '#000',
     borderWidth: 1,

@@ -1,3 +1,4 @@
+import React from 'react';
 import {Button, View} from 'react-native';
 import {ColorValue, GestureResponderEvent} from 'react-native';
 
@@ -15,7 +16,7 @@ const DefaultButton = ({
   onPress,
 }: DefaultButtonProps) => {
   return (
-    <View style={{marginTop: 8}}>
+    <View style={{marginTop: 15}}>
       <Button
         disabled={disabled}
         color={color}

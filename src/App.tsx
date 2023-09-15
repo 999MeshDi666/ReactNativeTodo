@@ -5,11 +5,10 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from 'react-native';
-import TodoCard from './src/components/TodoCard';
-import Header from './src/components/Header';
-import TodoForm from './src/components/TodoForm';
+import TodoCard from './components/TodoCard';
+import Header from './components/Header';
+import TodoForm from './components/TodoForm';
 
 const initialList = [
   {
@@ -31,40 +30,6 @@ function App(): JSX.Element {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
 
-  const addTodo = () => {
-    const num1 = Math.floor(Math.random() * 1000);
-    const num2 = Math.floor(Math.random() * 1000);
-    const newTodo = {
-      index: `WD${num1}SD${num2}`,
-      title: title,
-      desc: desc,
-      isDone: false,
-    };
-    setTodoList(prevState => [newTodo, ...prevState]);
-    setTitle('');
-    setDesc('');
-  };
-
-  const finishTodo = (index: string) => {
-    const filteredTodo = todoList.map(elem => {
-      if (index === elem.index) {
-        elem.isDone = !elem.isDone;
-      }
-      return elem;
-    });
-    setTodoList(filteredTodo);
-  };
-
-  const removeTodo = (index: string) => {
-    const filteredTodo = todoList.filter(elem => elem.index !== index);
-    setTodoList(filteredTodo);
-    Alert.alert(
-      `todo index: ${index}`,
-      `todo index: ${index} has been deleted`,
-      [{text: 'close'}],
-    );
-  };
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -82,8 +47,8 @@ function App(): JSX.Element {
                 title={item.title}
                 desc={item.desc}
                 isDone={item.isDone}
-                removeTodo={removeTodo}
-                finishTodo={finishTodo}
+                todoList={todoList}
+                setTodoList={setTodoList}
               />
             )}
           />
@@ -95,7 +60,6 @@ function App(): JSX.Element {
           setTitle={setTitle}
           setDesc={setDesc}
           setTodoList={setTodoList}
-          addTodo={addTodo}
         />
       </View>
     </TouchableWithoutFeedback>
@@ -103,11 +67,12 @@ function App(): JSX.Element {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#435470',
+    backgroundColor: '#383838',
     flex: 1,
   },
   listContainer: {
     paddingHorizontal: 20,
+    marginTop: 20,
     flex: 1,
   },
 });

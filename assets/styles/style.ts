@@ -7,6 +7,5 @@ export const globalStyle = StyleSheet.create({
     fontSize: 25,
     letterSpacing: 1,
     textAlign: 'center',
-    marginBottom: 20,
   },
 });
